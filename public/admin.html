@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1>收学生作业工具后台管理</h1>
+    <input type="text" disabled value="1901A班" /><br /><br />
+
+    <label for="studentName">
+        学生姓名:
+    </label>
+    <input id="studentName" type="text" value="" />
+
+    <label for="studentPhone">
+        学生手机号
+    </label>
+    <input id="studentPhone" type="text" value="" />
+
+    <input id="submit" type="button" value="提交"/>
+    <hr />
+    
+            <table border="1" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>姓名</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentList">
+                    <tr>
+                        <td>xiaohong</td>
+                        <td>删除</td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+         
+
+
+    </div>
+    <!-- </form>    -->
+    <script>
+
+    
+        function query() {
+            $.ajax({
+                type: "POST",
+                url: "/selectStu",
+                dataType: "json",
+                processData: false,  // 注意：让jQuery不要处理数据
+                contentType: false,  // 注意：让jQuery不要设置contentType
+                success: function (msg) {
+
+                   if (msg.status) {
+
+                    let html = ``;
+                    for (let i =0; i< msg.data.length; i++) {
+                        html += `
+                        
+                        <tr>
+                            <td>${msg.data[i].studentname}</td>
+                            <td><a href="javascript:void(0)" data-id=${msg.data[i].id}>删除</a></td>
+                        </tr>
+                        `
+                    }
+
+                    $("#studentList").html(html);
+                   } else {
+                    alert('error');
+
+                   }
+
+
+                },
+                fail: function (msg) {
+                    console.log(msg);
+                }
+            })
+        }
+
+        query();
+
+
+        //删除
+
+        $('#studentList').on("click", "a",function (e) {
+            console.log(e);
+            console.log(e.currentTarget.dataset.id);
+            
+
+              // 创建
+  var form_data = new FormData();
+
+  form_data.append("id", e.currentTarget.dataset.id);
+            $.ajax({
+                type: "POST",
+                url: "/deleteStu",
+                dataType: "json",
+                processData: false,  // 注意：让jQuery不要处理数据
+                contentType: false,  // 注意：让jQuery不要设置contentType
+                data: form_data,
+                success: function (msg) {
+
+                   if (msg.status) {
+                    query();
+                   } else {
+                    alert('error');
+                   }
+                },
+                fail: function (msg) {
+                    console.log(msg);
+                }
+            })
+
+        })
+
+
+        //教育类
+        $('#submit').on("click", function () {
+
+  // 创建
+  var form_data = new FormData();
+
+  var studentname = $('#studentName').val();
+
+  var studentphone = $('#studentPhone').val();
+  
+
+  if (!studentname && !studentphone) {
+    alert('输入有误!!');
+    return;
+  }
+
+  form_data.append("studentname", studentname);
+            form_data.append("studentphone", studentphone);
+           
+            $.ajax({
+                type: "POST",
+                url: "/insertStu",
+                dataType: "json",
+                processData: false,  // 注意：让jQuery不要处理数据
+                contentType: false,  // 注意：让jQuery不要设置contentType
+                data: form_data,
+                success: function (msg) {
+                    console.log(msg);
+
+                   if (msg.status) {
+                    query();
+                   } else {
+                    alert('error');
+
+                   }
+
+
+                },
+                fail: function (msg) {
+                    console.log(msg);
+                }
+            })
+
+
+
+        })
+
+
+
+
+
+       
+    </script>
+</body>
+
+</html>

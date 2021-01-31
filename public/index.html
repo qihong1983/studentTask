@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1>收学生作业工具</h1>
+    <input type="text" disabled value="1901A班" /><br /><br />
+
+    <label for="studentName">
+        姓名:
+    </label>
+    <input id="studentName" type="text" value="" />
+
+    <hr />
+    <p>
+        教育类作业 --- 上传图片格式<br />
+        技术类作业 --- <span style="color:red;">年-月-日-姓名.zip</span>
+    </p>
+
+    <!-- <form method="post" action="/" enctype="multipart/form-data"> -->
+
+    <div style="display:flex; justify-content: space-around;">
+
+        <div>
+
+            <h2>教育类作业</h2>
+
+            <input id="file_data1" type="file" name="file" />
+            <input id="submit_1" type="submit" value="上传" /><br /><br />
+
+
+            <table border="1" cellspacing="0" cellpadding="0">
+                <thead>
+
+                    <tr>
+                        <th>姓名</th>
+                        <th>提交后的文件名</th>
+                    </tr>
+                </thead>
+
+                <tbody id="jiaoyu">
+                    <tr>
+                        <td>姓名</td>
+                        <td>提交后的文件名</td>
+                    </tr>
+
+                    <tr>
+                        <td>姓名</td>
+                        <td>提交后的文件名</td>
+                    </tr>
+                </tbody>
+
+
+
+            </table>
+
+            <h4>没交作业名单<span id="notask1"></span></h4>
+            <ul id="noTaskStudent1">
+                <li>小洪</li>
+                <li>小洪</li>
+            </ul>
+            <hr />
+        </div>
+
+
+
+
+
+
+
+
+
+        <div>
+
+
+
+
+            <h2>技术类作业</h2>
+
+            <input id="file_data2" type="file" name="file" />
+            <input id="submit_2" type="submit" value="上传" /><br /><br />
+
+
+            <table border="1" cellspacing="0" cellpadding="0">
+                <thead>
+
+                    <tr>
+                        <th>姓名</th>
+                        <th>提交后的文件名</th>
+                    </tr>
+                </thead>
+
+                <tbody id="jishu">
+                    <tr>
+                        <td>姓名</td>
+                        <td>提交后的文件名</td>
+                    </tr>
+
+                    <tr>
+                        <td>姓名</td>
+                        <td>提交后的文件名</td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+            <h4>没交作业名单<span id="notask2"></span></h4>
+            <ul id="noTaskStudent2">
+            </ul>
+            <hr />
+        </div>
+
+
+    </div>
+    <!-- </form>    -->
+    <script>
+
+        //教育类初始化
+        $.ajax({
+            type: "POST",
+            url: "/jiaoyuinit",
+            dataType: "json",
+            processData: false,  // 注意：让jQuery不要处理数据
+            contentType: false,  // 注意：让jQuery不要设置contentType
+
+            success: function (msg) {
+                console.log(msg);
+
+                let html = ``;
+                if (msg.status) {
+                    for (let i = 0; i < msg.data.length; i++) {
+                        html += `
+                <tr style="${msg.data[i].url ? "background:green; color: white;" : ""}">
+                <td>${msg.data[i].studentname}</td>
+                <td>${msg.data[i].url ? msg.data[i].url : ''}</td>
+            </tr>
+                `
+                    }
+
+
+
+                    $('#jiaoyu').html(html);
+
+
+                    let arr = [];
+
+                    for (let i = 0; i < msg.data.length; i++) {
+                        if (!msg.data[i].url) {
+                            arr.push(msg.data[i]);
+                        }
+                    }
+
+
+
+
+                    $("#notask1").text(`(${arr.length}人)`);
+                    let noTaskStudentListHtml = ``;
+
+                    for (let i = 0; i < arr.length; i++) {
+                        noTaskStudentListHtml += `
+                <li>${arr[i].studentname}</li>
+            `;
+                    }
+
+
+                    $("#noTaskStudent1").html(noTaskStudentListHtml);
+
+
+
+                } else {
+                        alert(msg.msg);
+
+                    }
+
+
+
+
+            },
+            fail: function (msg) {
+                console.log(msg);
+            }
+        });
+
+
+        $.ajax({
+                type: "POST",
+                url: "/jishuinit",
+                dataType: "json",
+                processData: false,  // 注意：让jQuery不要处理数据
+                contentType: false,  // 注意：让jQuery不要设置contentType
+         
+                success: function (msg) {
+                    console.log(msg);
+
+                    
+
+                    let html = ``;
+                    if (msg.status) {
+                        for (let i = 0; i < msg.data.length; i++) {
+                            html += `
+    <tr style="${msg.data[i].url ? "background:green; color: white;" : ""}">
+    <td>${msg.data[i].studentname}</td>
+    <td>${msg.data[i].url ? msg.data[i].url : ''}</td>
+</tr>
+    `
+                        }
+
+
+
+                        $('#jishu').html(html);
+
+
+                        let arr = [];
+
+                        for (let i = 0; i < msg.data.length; i++) {
+                            if (!msg.data[i].url) {
+                                arr.push(msg.data[i]);
+                            }
+                        }
+
+
+
+
+                        $("#notask2").text(`(${arr.length}人)`);
+                        let noTaskStudentListHtml = ``;
+
+
+                        console.log(arr, 'arrarr');
+                        for (let i = 0; i < arr.length; i++) {
+                            console.log(i);
+                        
+                            noTaskStudentListHtml += `
+    <li>${arr[i].studentname}</li>
+`;
+                        }
+                        console.log(noTaskStudentListHtml, '<--noTaskStudentListHtml');
+
+                        $("#noTaskStudent2").html(noTaskStudentListHtml);
+
+
+
+                    } else {
+                        alert(msg.msg);
+                    }
+
+
+
+
+                },
+                fail: function (msg) {
+                    console.log(msg);
+                }
+            })
+
+
+        //教育类
+        $('#submit_1').on("click", function () {
+
+
+            // 创建
+            var form_data = new FormData();
+
+            // 获取文件
+            var file_data = $("#file_data1").prop("files")[0];
+
+            if (!file_data) {
+                alert('没有提交文件');
+                return ;
+            }
+
+            var studentname = $('#studentName').val();
+
+
+            console.log(studentname, '<--studentname');
+            // 把所以表单信息
+            form_data.append("studentName", studentname);
+            form_data.append("type", 0);
+
+            form_data.append("file", file_data);
+
+
+            console.log(form_data, 'form_data');
+            $.ajax({
+                type: "POST",
+                url: "/jiaoyu",
+                dataType: "json",
+                processData: false,  // 注意：让jQuery不要处理数据
+                contentType: false,  // 注意：让jQuery不要设置contentType
+                data: form_data,
+                success: function (msg) {
+                    console.log(msg);
+
+                    let html = ``;
+                    if (msg.status) {
+                        for (let i = 0; i < msg.data.length; i++) {
+                            html += `
+                <tr style="${msg.data[i].url ? "background:green; color: white;" : ""}">
+                <td>${msg.data[i].studentname}</td>
+                <td>${msg.data[i].url ? msg.data[i].url : ''}</td>
+            </tr>
+                `
+                        }
+
+
+
+                        $('#jiaoyu').html(html);
+
+
+                        let arr = [];
+
+                        for (let i = 0; i < msg.data.length; i++) {
+                            if (!msg.data[i].url) {
+                                arr.push(msg.data[i]);
+                            }
+                        }
+
+
+
+
+                        $("#notask1").text(`(${arr.length}人)`);
+                        let noTaskStudentListHtml = ``;
+
+                        for (let i = 0; i < arr.length; i++) {
+                            noTaskStudentListHtml += `
+                <li>${arr[i].studentname}</li>
+            `;
+                        }
+
+
+                        $("#noTaskStudent1").html(noTaskStudentListHtml);
+
+                        
+
+                    } else {
+                        alert(msg.msg);
+
+                    }
+
+                    $("#file_data1").prop("files")[0] =undefined;
+
+
+
+
+                },
+                fail: function (msg) {
+                    console.log(msg);
+                }
+            })
+
+
+
+        })
+
+
+
+
+
+        //教育类
+        $('#submit_2').on("click", function () {
+
+
+            // 创建
+            var form_data = new FormData();
+
+            // 获取文件
+            var file_data = $("#file_data2").prop("files")[0];
+
+
+            if (!file_data) {
+                alert('没有提交文件');
+                return ;
+            }
+            var studentname = $('#studentName').val();
+
+
+
+            // 把所以表单信息
+            form_data.append("studentName", studentname);
+            form_data.append("type", 1);
+
+            form_data.append("file", file_data);
+
+
+            console.log(form_data, 'form_data');
+            $.ajax({
+                type: "POST",
+                url: "/jishu",
+                dataType: "json",
+                processData: false,  // 注意：让jQuery不要处理数据
+                contentType: false,  // 注意：让jQuery不要设置contentType
+                data: form_data,
+                success: function (msg) {
+                    console.log(msg);
+
+                    let html = ``;
+                    if (msg.status) {
+                        for (let i = 0; i < msg.data.length; i++) {
+                            html += `
+    <tr style="${msg.data[i].url ? "background:green; color: white;" : ""}">
+    <td>${msg.data[i].studentname}</td>
+    <td>${msg.data[i].url ? msg.data[i].url : ''}</td>
+</tr>
+    `
+                        }
+
+
+
+                        $('#jishu').html(html);
+
+
+                        let arr = [];
+
+                        for (let i = 0; i < msg.data.length; i++) {
+                            if (!msg.data[i].url) {
+                                arr.push(msg.data[i]);
+                            }
+                        }
+
+
+
+
+                        $("#notask2").text(`(${arr.length}人)`);
+                        let noTaskStudentListHtml = ``;
+
+                        for (let i = 0; i < arr.length; i++) {
+                            noTaskStudentListHtml += `
+    <li>${arr[i].studentname}</li>
+`;
+                        }
+
+
+                        $("#noTaskStudent2").html(noTaskStudentListHtml);
+
+
+
+                    } else {
+                        alert(msg.msg);
+
+                    }
+
+
+
+
+                },
+                fail: function (msg) {
+                    console.log(msg);
+                }
+            })
+
+
+
+        })
+    </script>
+</body>
+
+</html>
