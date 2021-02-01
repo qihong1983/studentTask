@@ -100,7 +100,23 @@ app.post('/jiaoyu',  async (req,res) => {
         }).then((data)=> {
           
 
-            console.log('fist');
+            query(`select student.id, student.studentname, task.url, task.type from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`).then((data)=> {
+                if (data.err) {
+                    res.json({
+                        status:false
+                    })
+                } else {
+                    let jsonData = {
+                        "status": true,
+                        "data":data.rows 
+                    }
+
+                    // console.log(jsonData, '22222222222222222222222222222222222222222222222222222222');
+                    res.json(jsonData);
+                }
+                
+                console.log(data, 444444444444444444444444444444444444444);
+            })
            
         }).then((data)=> {
 
