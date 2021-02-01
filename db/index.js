@@ -30,8 +30,9 @@ dbObj.one = (studentName, type,filename) => {
 
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
-        pool.getConnection((err, conn) => {
+        pool.getConnection((connecterr, conn) => {
 
+            console.log(connecterr, 'connecterrconnecterr');
             conn.query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (err, results) => {
                 // if (err) {
                 //     return reject(err);
