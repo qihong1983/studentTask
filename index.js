@@ -78,10 +78,20 @@ app.post('/jiaoyu',  async (req,res) => {
             //     return;
             // }
         }).then((data)=> {
-            console.log(data,222222222222222222222222222222);
+          
 
             console.log('fist');
-            query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}`);
+            query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}`).then((data)=> {
+                console.log(data,222222222222222222222222222222);
+                
+                if (data.err) {
+                    res.json({
+                        status:false
+                    })
+                } else {
+                    return ;
+                }
+            });
         }).then((data)=> {
 
             console.log(data, 3333333333333333);
