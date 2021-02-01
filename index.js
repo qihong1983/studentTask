@@ -130,10 +130,7 @@ app.post('/jiaoyu',  async (req,res) => {
                 console.log(data, 444444444444444444444444444444444444444);
             })
            
-        }).then(()=> {
-
-            console.log(3333333333333333);
-        })
+        }).catch(function (err) {console.log(err);});
 
 
         // console.log(2222222222222222222222222222222222222222222222222222222);
