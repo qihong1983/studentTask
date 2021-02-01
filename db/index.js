@@ -38,7 +38,7 @@ dbObj.one = (studentName, type,filename) => {
 
 
                         pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, allResults) => {
-                            // pool.releaseConnection(conn);
+                            pool.releaseConnection(conn);
                     
                             if (err) {
                                 return reject(err);
@@ -57,7 +57,7 @@ dbObj.one = (studentName, type,filename) => {
                         }
         
                         await pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (allErr, allResults) => {
-                            // pool.releaseConnection(conn);
+                            pool.releaseConnection(conn);
                             console.log(allResults, '<==========');
                             if (allErr) {
                                 return reject(allErr);
@@ -73,7 +73,6 @@ dbObj.one = (studentName, type,filename) => {
                
 
 
-                pool.releaseConnection(conn);
                 // return resolve(results);
             });
 
