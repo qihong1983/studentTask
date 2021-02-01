@@ -16,18 +16,65 @@ const pool = mysql.createPool({
 let dbObj = {};
 
 
-dbObj.one = (studentName, type) => {
+dbObj.one = (studentName, type,filename) => {
     return new Promise((resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
         pool.getConnection((err, conn) => {
 
-            conn.query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
+            conn.query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (err, results) => {
                 if (err) {
                     return reject(err);
                 }
+
+                if (!results.length) {
+                    await pool.query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`, (err, results) => {
+                        // pool.releaseConnection(conn);
+                        
+                        if (err) {
+                            return reject(err);
+                        }
+                        // return resolve(results);
+
+
+                        pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
+                            // pool.releaseConnection(conn);
+                    
+                            if (err) {
+                                return reject(err);
+                            }
+            
+                            return resolve(results);
+                        });
+                    });
+                } else {
+                    await pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
+                        // pool.releaseConnection(conn);
+        
+                        console.log(err, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+                        if (err) {
+                            return reject(err);
+                        }
+        
+                        pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
+                            // pool.releaseConnection(conn);
+                    
+                            if (err) {
+                                return reject(err);
+                            }
+            
+                            return resolve(results);
+                        });
+
+                        // return resolve(results);
+                    });
+                }
+
+               
+
+
                 pool.releaseConnection(conn);
-                return resolve(results);
+                // return resolve(results);
             });
 
         });

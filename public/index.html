@@ -303,11 +303,11 @@
                     if (msg.status) {
                         for (let i = 0; i < msg.data.length; i++) {
                             html += `
-                <tr style="${msg.data[i].url ? "background:green; color: white;" : ""}">
-                <td>${msg.data[i].studentname}</td>
-                <td>${msg.data[i].url ? msg.data[i].url : ''}</td>
-            </tr>
-                `
+                                <tr style="${msg.data[i].url ? "background:green; color: white;" : ""}">
+                                    <td>${msg.data[i].studentname}</td>
+                                    <td>${msg.data[i].url ? msg.data[i].url : ''}</td>
+                                </tr>
+                            `
                         }
 
 
@@ -331,8 +331,8 @@
 
                         for (let i = 0; i < arr.length; i++) {
                             noTaskStudentListHtml += `
-                <li>${arr[i].studentname}</li>
-            `;
+                                <li>${arr[i].studentname}</li>
+                            `;
                         }
 
 
