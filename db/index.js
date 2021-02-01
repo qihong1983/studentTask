@@ -99,9 +99,10 @@ dbObj.one = (studentName, type,filename) => {
 
                 // return resolve(results);
 
-                pool.releaseConnection(conn);
 
             });
+            pool.releaseConnection(conn);
+
 
         });
 
@@ -144,9 +145,10 @@ dbObj.one = (studentName, type,filename) => {
 
                         // return resolve(results);
 
-                        pool.releaseConnection(conn);
 
                 });
+                pool.releaseConnection(conn);
+
 
             });
         });
