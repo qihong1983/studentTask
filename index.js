@@ -81,7 +81,7 @@ app.post('/jiaoyu',  async (req,res) => {
           
 
             console.log('fist');
-            query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}`).then((data)=> {
+            query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then((data)=> {
                 console.log(data,222222222222222222222222222222);
                 
                 if (data.err) {
