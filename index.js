@@ -97,7 +97,7 @@ app.post('/jiaoyu',  async (req,res) => {
             //     res.json({message:'该厂家信息已经录入！'});
             //     return;
             // }
-        }).then((data)=> {
+        }).then(()=> {
           
 
             query(`select student.id, student.studentname, task.url, task.type from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`).then((data)=> {
@@ -118,7 +118,7 @@ app.post('/jiaoyu',  async (req,res) => {
                 console.log(data, 444444444444444444444444444444444444444);
             })
            
-        }).then((data)=> {
+        }).then(()=> {
 
             console.log(data, 3333333333333333);
         })
