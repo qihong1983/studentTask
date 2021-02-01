@@ -61,7 +61,8 @@ app.post('/jiaoyu',  async (req,res) => {
 
         console.log(2222222222222222222222222222222222222222222222222222222);
         let resultSelect = await db.one(studentName, type, filename);
-    
+
+        console.log(resultSelect, '<--------------');
 
         let jsonData = {
             status: true,
