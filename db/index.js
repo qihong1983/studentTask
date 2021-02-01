@@ -52,9 +52,9 @@ dbObj.one = (studentName, type,filename) => {
                         // pool.releaseConnection(conn);
         
                         console.log(updateErr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-                        if (updateErr) {
-                            return reject(updateErr);
-                        }
+                        // if (updateErr) {
+                        //     return reject(updateErr);
+                        // }
         
                         await conn.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (allErr, allResults) => {
                             pool.releaseConnection(conn);
