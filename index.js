@@ -24,7 +24,7 @@ app.use(upload())
 app.use(express.static(__dirname + '/public'));
 
 
-app.post('/jiaoyu',  (req,res) => {
+app.post('/jiaoyu',  async (req,res) => {
     
     if (req.files) {
     
@@ -41,7 +41,7 @@ app.post('/jiaoyu',  (req,res) => {
         }
         
 
-        file.mv('./public/uploads/'+filename, async function (err) {
+        await file.mv('./public/uploads/'+filename, async function (err) {
            
             console.log(err, 'erroerroerror');
 
