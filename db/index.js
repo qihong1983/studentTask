@@ -59,6 +59,8 @@ dbObj.updateTask = (studentName, type, filename) => {
        
         console.log(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}`);
         pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
+
+            console.log(err, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
             if (err) {
                 return reject(err);
             }
