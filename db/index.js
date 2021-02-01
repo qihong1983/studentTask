@@ -48,7 +48,7 @@ dbObj.one = (studentName, type,filename) => {
                         });
                     });
                 } else {
-                    await pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (updateErr, updateResults) => {
+                    await pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
                         // pool.releaseConnection(conn);
         
                         console.log(updateErr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
@@ -56,7 +56,7 @@ dbObj.one = (studentName, type,filename) => {
                             return reject(updateErr);
                         }
         
-                        pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (allErr, allResults) => {
+                        await pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (allErr, allResults) => {
                             // pool.releaseConnection(conn);
                             console.log(allResults, '<==========');
                             if (allErr) {
