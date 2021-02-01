@@ -121,8 +121,12 @@ dbObj.one = (studentName, type,filename) => {
         return new Promise((resolve, reject) => {
 
 
+            console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
 
             pool.getConnection((err, conn) => {
+
+            console.log(err);
+            console.log('ccccccccccccccccccccccccccccccccccccccccccc');
 
             
             conn.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
