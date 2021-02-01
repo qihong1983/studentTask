@@ -34,71 +34,16 @@ dbObj.one = (studentName, type,filename) => {
 
             console.log(connecterr, 'connecterrconnecterr');
             conn.query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (err, results) => {
-                // if (err) {
-                //     return reject(err);
-                // }
-
-
-                resolve({"qihong": "qihong"});
-
-                if (!results.length) {
-                    // await conn.query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`, (err, insertResults) => {
-                    //     // pool.releaseConnection(conn);
-                        
-                    //     // if (err) {
-                    //     //     return reject(err);
-                    //     // }
-                    //     // return resolve(results);
-
-
-                    //     conn.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, allResults) => {
-                    //         pool.releaseConnection(conn);
-                    
-                    //         // if (err) {
-                    //         //     return reject(err);
-                    //         // }
-            
-                    //         return resolve(allResults);
-                    //     });
-                    // });
-                } else {
-
-
-                    // var promise = new Promise(()=> {
-
-                    // })
-
-
-                    // await conn.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
-                    //     // pool.releaseConnection(conn);
-        
-                    //     console.log(updateErr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-                    //     // if (updateErr) {
-                    //     //     return reject(updateErr);
-                    //     // }
-        
-                    //     await conn.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (allErr, allResults) => {
-                    //         pool.releaseConnection(conn);
-                    //         console.log(allResults, '<==========');
-                    //         // if (allErr) {
-                    //         //     return reject(allErr);
-                    //         // }
-            
-                    //         return resolve(allResults);
-                    //     });
-
-                    //     // return resolve(results);
-                    // });
-
-
-
-                   
+                if (err) {
+                    return reject(err);
                 }
+
+
 
                
 
 
-                // return resolve(results);
+                return resolve(results);
 
 
             });
@@ -108,60 +53,7 @@ dbObj.one = (studentName, type,filename) => {
         });
 
 
-    }).then((msg)=> {
-        console.log(msg, 'msgmsgmsgmsg');
-        pool = mysql.createPool({
-            connectionLimit: 200,
-            password: '123456',
-            user: 'root',
-            database: 'studentManage',
-            host: '43.252.230.6',
-            port: '3306'
-        });
-        return new Promise((resolve, reject) => {
-
-
-            console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
-
-            pool.getConnection((err, conn) => {
-
-            console.log(err);
-            console.log('ccccccccccccccccccccccccccccccccccccccccccc');
-
-            
-            conn.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
-        
-            console.log('dddddddddddddddddddddddddddddddddddddddd');
-
-                        console.log(updateErr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-                        // if (updateErr) {
-                        //     return reject(updateErr);
-                        // }
-        
-
-                        resolve({"xiaohong":"111"});
-                        // await conn.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (allErr, allResults) => {
-                        //     pool.releaseConnection(conn);
-                        //     console.log(allResults, '<==========');
-                        //     // if (allErr) {
-                        //     //     return reject(allErr);
-                        //     // }
-            
-                        //     return resolve(allResults);
-                        // });
-
-                        // return resolve(results);
-
-
-                });
-                pool.releaseConnection(conn);
-
-
-            });
-        });
-    }).then((msg) => {
-        console.log(msg,'second sql');
-    });
+    })
 }
 
 

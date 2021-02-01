@@ -136,13 +136,13 @@ app.post('/jiaoyu',  async (req,res) => {
         // console.log(2222222222222222222222222222222222222222222222222222222);
         let resultSelect = await db.one(studentName, type, filename);
 
-        console.log(resultSelect, '<--------------');
+        // console.log(resultSelect, '<--------------');
 
-        let jsonData = {
-            status: true,
-            data:resultSelect 
-        }
-        await res.json(jsonData);
+        // let jsonData = {
+        //     status: true,
+        //     data:resultSelect 
+        // }
+        // await res.json(jsonData);
 
 
 
@@ -157,37 +157,37 @@ app.post('/jiaoyu',  async (req,res) => {
 
         // console.log(333333333333333333333333333333333333333333333333333333);
 
-        // if (!resultSelect.length) {
+        if (!resultSelect.length) {
 
-        // console.log(44444444444444444444444444444444444444444444444444444444);
+        console.log(44444444444444444444444444444444444444444444444444444444);
 
-        //     let insertTask = await db.insertTask(studentName, type, filename);
-        // console.log(555555555555555555555555555555555555555555555);
+            let insertTask = await db.insertTask(studentName, type, filename);
+        console.log(555555555555555555555555555555555555555555555);
             
-        // } else {
-        //     console.log(6666666666666666666666666666666666666666666666666666666);
+        } else {
+            console.log(6666666666666666666666666666666666666666666666666666666);
 
 
-        //     let updateTask = await db.updateTask(studentName, type, filename);
-        //     console.log(777777777777777777777777777777777777777777777777);
-        // }
+            let updateTask = await db.updateTask(studentName, type, filename);
+            console.log(777777777777777777777777777777777777777777777777);
+        }
 
-        // console.log(888888888888888888888888888888888888888888888888);
+        console.log(888888888888888888888888888888888888888888888888);
 
     
         
-        // let results =  await db.all(studentName, type, filename);
+        let results =  await db.all(studentName, type, filename);
 
-        // console.log(99999999999999999999999999999999999999999999999999999999999999999);
+        console.log(99999999999999999999999999999999999999999999999999999999999999999);
 
 
-        // let jsonData = {
-        //     status: true,
-        //     data:results 
-        // }
+        let jsonData = {
+            status: true,
+            data:results 
+        }
 
-        // console.log(jsonData, '22222222222222222222222222222222222222222222222222222222');
-        // res.json(jsonData);
+        console.log(jsonData, '22222222222222222222222222222222222222222222222222222222');
+        res.json(jsonData);
     }
 });
 
