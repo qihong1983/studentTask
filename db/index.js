@@ -3,9 +3,9 @@ const moment = require('moment');
 
 
 const pool = mysql.createPool({
-    connectionLimit: 10,
+    connectionLimit: 200,
     password: '123456',
-    user:'root',
+    user: 'root',
     database: 'studentManage',
     host: '43.252.230.6',
     port: '3306'
@@ -17,58 +17,73 @@ let dbObj = {};
 
 
 dbObj.one = (studentName, type) => {
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
+        pool.getConnection((err, conn) => {
 
-        pool.query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-    
-            return resolve(results);
+            conn.query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
+                if (err) {
+                    return reject(err);
+                }
+                pool.releaseConnection(conn);
+                return resolve(results);
+            });
+
         });
+
 
     })
 }
 
 
 dbObj.insertTask = (studentName, type, filename) => {
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
 
-        console.log(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`);
-        pool.query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`, (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-    
-            return resolve(results);
+        pool.getConnection((err, conn) => {
+
+
+
+            console.log(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`);
+            pool.query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`, (err, results) => {
+                pool.releaseConnection(conn);
+                
+                if (err) {
+                    return reject(err);
+                }
+                return resolve(results);
+            });
+
         });
 
     })
 }
 
 
-dbObj.updateTask =  (studentName, type, filename) => {
-    return new Promise(async(resolve,reject)=> {
+dbObj.updateTask = (studentName, type, filename) => {
+    return new Promise(async (resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
 
-       
-        console.log(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}`);
-        
-        console.log(pool.query, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
-        
-        await pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
 
-            console.log(err, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-            if (err) {
-                return reject(err);
-            }
-    
-            return resolve(results);
+        console.log(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}`);
+
+        console.log(pool.query, 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
+
+
+        pool.getConnection((err, conn) => {
+            pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
+                pool.releaseConnection(conn);
+
+                console.log(err, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+                if (err) {
+                    return reject(err);
+                }
+
+                return resolve(results);
+            });
         });
 
     })
@@ -77,18 +92,22 @@ dbObj.updateTask =  (studentName, type, filename) => {
 
 dbObj.all = (studentName, type, filename) => {
 
-    return new Promise(async (resolve,reject)=> {
+    return new Promise(async (resolve, reject) => {
         console.log(`select student.id, student.studentname, task.url, task.type from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`);
-      
-        await pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
-            if (err) {
-                return reject(err);
-            }
-    
-            return resolve(results);
+
+        pool.getConnection((err, conn) => {
+            pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
+                pool.releaseConnection(conn);
+        
+                if (err) {
+                    return reject(err);
+                }
+
+                return resolve(results);
+            });
         });
     })
-    
+
 }
 
 //技术类
@@ -97,7 +116,7 @@ dbObj.all = (studentName, type, filename) => {
 
 
 dbObj.oneJishu = (studentName, type) => {
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
 
@@ -105,7 +124,7 @@ dbObj.oneJishu = (studentName, type) => {
             if (err) {
                 return reject(err);
             }
-    
+
             return resolve(results);
         });
 
@@ -114,7 +133,7 @@ dbObj.oneJishu = (studentName, type) => {
 
 
 dbObj.insertTaskJishu = (studentName, type, filename) => {
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
 
@@ -123,7 +142,7 @@ dbObj.insertTaskJishu = (studentName, type, filename) => {
             if (err) {
                 return reject(err);
             }
-    
+
             return resolve(results);
         });
 
@@ -136,17 +155,17 @@ dbObj.insertTaskJishu = (studentName, type, filename) => {
 
 
 dbObj.updateTaskJishu = (studentName, type, filename) => {
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
 
-       
+
         console.log(`UPDATE task2 SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}`);
         pool.query(`UPDATE task2 SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
             if (err) {
                 return reject(err);
             }
-    
+
             return resolve(results);
         });
 
@@ -160,17 +179,17 @@ dbObj.updateTaskJishu = (studentName, type, filename) => {
 
 
 dbObj.allJishu = (studentName, type, filename) => {
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve, reject) => {
         console.log(`select student.id, student.studentname, task2.url from student left join task2 on student.studentname = task2.studentname and task2.createAt = '${moment().format("YYYYMMDD")}';`);
         pool.query(`select student.id, student.studentname, task2.url from student left join task2 on student.studentname = task2.studentname and task2.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
             if (err) {
                 return reject(err);
             }
-    
+
             return resolve(results);
         });
     })
-    
+
 }
 
 
@@ -180,7 +199,7 @@ dbObj.allJishu = (studentName, type, filename) => {
 
 
 dbObj.insertStu = (studentName, studentPhone) => {
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
 
@@ -189,7 +208,7 @@ dbObj.insertStu = (studentName, studentPhone) => {
             if (err) {
                 return reject(err);
             }
-    
+
             return resolve(results);
         });
 
@@ -198,7 +217,7 @@ dbObj.insertStu = (studentName, studentPhone) => {
 
 
 dbObj.selectStu = () => {
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
 
@@ -207,7 +226,7 @@ dbObj.selectStu = () => {
             if (err) {
                 return reject(err);
             }
-    
+
             return resolve(results);
         });
 
@@ -216,7 +235,7 @@ dbObj.selectStu = () => {
 
 
 dbObj.deleteStu = (id) => {
-    return new Promise((resolve,reject)=> {
+    return new Promise((resolve, reject) => {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
 
@@ -225,7 +244,7 @@ dbObj.deleteStu = (id) => {
             if (err) {
                 return reject(err);
             }
-    
+
             return resolve(results);
         });
 
