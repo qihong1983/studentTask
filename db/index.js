@@ -28,7 +28,7 @@ dbObj.one = (studentName, type,filename) => {
                 }
 
                 if (!results.length) {
-                    await pool.query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`, (err, results) => {
+                    await pool.query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`, (err, insertResults) => {
                         // pool.releaseConnection(conn);
                         
                         if (err) {
@@ -37,18 +37,18 @@ dbObj.one = (studentName, type,filename) => {
                         // return resolve(results);
 
 
-                        pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
+                        pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, allResults) => {
                             // pool.releaseConnection(conn);
                     
                             if (err) {
                                 return reject(err);
                             }
             
-                            return resolve(results);
+                            return resolve(allResults);
                         });
                     });
                 } else {
-                    await pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
+                    await pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, updateResults) => {
                         // pool.releaseConnection(conn);
         
                         console.log(err, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
@@ -56,14 +56,14 @@ dbObj.one = (studentName, type,filename) => {
                             return reject(err);
                         }
         
-                        pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
+                        pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, allResults) => {
                             // pool.releaseConnection(conn);
                     
                             if (err) {
                                 return reject(err);
                             }
             
-                            return resolve(results);
+                            return resolve(allResults);
                         });
 
                         // return resolve(results);
