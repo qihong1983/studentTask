@@ -131,6 +131,8 @@ dbObj.one = (studentName, type,filename) => {
             
             conn.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
         
+            console.log('dddddddddddddddddddddddddddddddddddddddd');
+
                         console.log(updateErr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                         // if (updateErr) {
                         //     return reject(updateErr);
