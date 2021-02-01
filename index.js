@@ -60,15 +60,32 @@ app.post('/jiaoyu',  async (req,res) => {
         });
 
 
-        query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then(function (data) {
-            res.json(data);
-            return;
+        query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).
+        then(function (data) {
+
+            console.log(data,1111111111111111111111111);
+            // res.json(!data.rows.length);
+            if (data.err) {
+                res.json({
+                    status: false
+                })
+            } else {
+                return;
+            }
             // if(data.rows[0]!=undefined)
             // {
             //     res.json({message:'该厂家信息已经录入！'});
             //     return;
             // }
-        });
+        }).then((data)=> {
+            console.log(data,222222222222222222222222222222);
+
+            console.log('fist');
+            query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}`);
+        }).then((data)=> {
+
+            console.log(data, 3333333333333333);
+        })
 
 
         // console.log(2222222222222222222222222222222222222222222222222222222);
