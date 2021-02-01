@@ -96,7 +96,34 @@ dbObj.one = (studentName, type,filename) => {
 
     }).then((msg)=> {
         console.log(msg, 'msgmsgmsgmsg');
-    })
+
+        return new Promise((resolve, reject) => {
+             await conn.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
+                        // pool.releaseConnection(conn);
+        
+                        console.log(updateErr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+                        // if (updateErr) {
+                        //     return reject(updateErr);
+                        // }
+        
+
+                        resolve({"xiaohong":"111"});
+                        // await conn.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (allErr, allResults) => {
+                        //     pool.releaseConnection(conn);
+                        //     console.log(allResults, '<==========');
+                        //     // if (allErr) {
+                        //     //     return reject(allErr);
+                        //     // }
+            
+                        //     return resolve(allResults);
+                        // });
+
+                        // return resolve(results);
+                });
+        });
+    }).then((msg) => {
+        console.log(msg,'second sql');
+    });
 }
 
 
