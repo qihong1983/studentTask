@@ -2,7 +2,7 @@ const mysql = require('mysql');
 const moment = require('moment');
 
 
-const pool = mysql.createPool({
+var pool = mysql.createPool({
     connectionLimit: 200,
     password: '123456',
     user: 'root',
@@ -19,6 +19,15 @@ let dbObj = {};
 dbObj.one = (studentName, type,filename) => {
     return new Promise((resolve, reject) => {
 
+
+         pool = mysql.createPool({
+            connectionLimit: 200,
+            password: '123456',
+            user: 'root',
+            database: 'studentManage',
+            host: '43.252.230.6',
+            port: '3306'
+        });
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
         pool.getConnection((err, conn) => {
 
@@ -100,6 +109,15 @@ dbObj.one = (studentName, type,filename) => {
         console.log(msg, 'msgmsgmsgmsg');
 
         return new Promise((resolve, reject) => {
+
+            pool = mysql.createPool({
+                connectionLimit: 200,
+                password: '123456',
+                user: 'root',
+                database: 'studentManage',
+                host: '43.252.230.6',
+                port: '3306'
+            });
 
             pool.getConnection((err, conn) => {
 
