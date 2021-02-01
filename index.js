@@ -60,83 +60,83 @@ app.post('/jiaoyu',  async (req,res) => {
         });
 
 
-        query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).
-        then(function (data) {
+        // query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).
+        // then(function (data) {
 
-            console.log(data,1111111111111111111111111);
-            // res.json(!data.rows.length);
-            if (data.err) {
-                res.json({
-                    status: false
-                })
-            } else {
-                // if (!data.rows.length) {
-                //     query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`).then((insertData)=> {
-                //         if (insertData.err) {
-                //             res.json({
-                //                 status: false
-                //             })
-                //         }
-                //     })
-                // } else {
-                //     query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then((updateData)=> {
-                //         console.log(updateData,222222222222222222222222222222);
+        //     console.log(data,1111111111111111111111111);
+        //     // res.json(!data.rows.length);
+        //     if (data.err) {
+        //         res.json({
+        //             status: false
+        //         })
+        //     } else {
+        //         // if (!data.rows.length) {
+        //         //     query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`).then((insertData)=> {
+        //         //         if (insertData.err) {
+        //         //             res.json({
+        //         //                 status: false
+        //         //             })
+        //         //         }
+        //         //     })
+        //         // } else {
+        //         //     query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then((updateData)=> {
+        //         //         console.log(updateData,222222222222222222222222222222);
                         
-                //         if (updateData.err) {
-                //             res.json({
-                //                 status:false
-                //             })
-                //         } else {
-                //             return ;
-                //         }
-                //     });
-                // }
-            }
-            // if(data.rows[0]!=undefined)
-            // {
-            //     res.json({message:'该厂家信息已经录入！'});
-            //     return;
-            // }
-        }).then(()=> {
-            query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then((updateData)=> {
-                        console.log(updateData,222222222222222222222222222222);
+        //         //         if (updateData.err) {
+        //         //             res.json({
+        //         //                 status:false
+        //         //             })
+        //         //         } else {
+        //         //             return ;
+        //         //         }
+        //         //     });
+        //         // }
+        //     }
+        //     // if(data.rows[0]!=undefined)
+        //     // {
+        //     //     res.json({message:'该厂家信息已经录入！'});
+        //     //     return;
+        //     // }
+        // }).then(()=> {
+        //     query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then((updateData)=> {
+        //                 console.log(updateData,222222222222222222222222222222);
                         
-                        if (updateData.err) {
-                            res.json({
-                                status:false
-                            })
-                        } else {
-                            return ;
-                        }
-                    });
-        }).then(()=> {
+        //                 if (updateData.err) {
+        //                     res.json({
+        //                         status:false
+        //                     })
+        //                 } else {
+        //                     return ;
+        //                 }
+        //             });
+        // }).then(()=> {
           
 
-            query(`select student.id, student.studentname, task.url, task.type from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`).then((data)=> {
-                if (data.err) {
-                    res.json({
-                        status:false
-                    })
-                } else {
-                    let jsonData = {
-                        "status": true,
-                        "data":data.rows 
-                    }
+        //     query(`select student.id, student.studentname, task.url, task.type from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`).then((data)=> {
+        //         if (data.err) {
+        //             res.json({
+        //                 status:false
+        //             })
+        //         } else {
+        //             let jsonData = {
+        //                 "status": true,
+        //                 "data":data.rows 
+        //             }
 
-                    // console.log(jsonData, '22222222222222222222222222222222222222222222222222222222');
-                    res.json(jsonData);
-                }
-                res.send();
-                console.log(data, 444444444444444444444444444444444444444);
-            })
-           
-        }).catch(function (err) {console.log(err);});
+        //             // console.log(jsonData, '22222222222222222222222222222222222222222222222222222222');
+        //             res.json(jsonData);
+        //         }
+                
+        //         console.log(data, 444444444444444444444444444444444444444);
+        //     })
+        //     res.send();
+        // }).catch(function (err) {console.log(err);});
 
 
         // console.log(2222222222222222222222222222222222222222222222222222222);
-        // let resultSelect = await db.one(studentName, type, filename);
+        let resultSelect = await db.one(studentName, type, filename);
 
-        // console.log(resultSelect, '<--------------');
+        console.log(resultSelect, '<--------------');
 
         // let jsonData = {
         //     status: true,
@@ -152,42 +152,42 @@ app.post('/jiaoyu',  async (req,res) => {
 
 
 
-        // // res.json(resultSelect);
+        // res.json(resultSelect);
 
 
-        // console.log(333333333333333333333333333333333333333333333333333333);
+        console.log(333333333333333333333333333333333333333333333333333333);
 
-        // if (!resultSelect.length) {
+        if (!resultSelect.length) {
 
-        // console.log(44444444444444444444444444444444444444444444444444444444);
+        console.log(44444444444444444444444444444444444444444444444444444444);
 
-        //     let insertTask = await db.insertTask(studentName, type, filename);
-        // console.log(555555555555555555555555555555555555555555555);
+            let insertTask = await db.insertTask(studentName, type, filename);
+        console.log(555555555555555555555555555555555555555555555);
             
-        // } else {
-        //     console.log(6666666666666666666666666666666666666666666666666666666);
+        } else {
+            console.log(6666666666666666666666666666666666666666666666666666666);
 
 
-        //     let updateTask = await db.updateTask(studentName, type, filename);
-        //     console.log(777777777777777777777777777777777777777777777777);
-        // }
+            let updateTask = await db.updateTask(studentName, type, filename);
+            console.log(777777777777777777777777777777777777777777777777);
+        }
 
-        // console.log(888888888888888888888888888888888888888888888888);
+        console.log(888888888888888888888888888888888888888888888888);
 
     
         
-        // let results =  await db.all(studentName, type, filename);
+        let results =  await db.all(studentName, type, filename);
 
-        // console.log(99999999999999999999999999999999999999999999999999999999999999999);
+        console.log(99999999999999999999999999999999999999999999999999999999999999999);
 
 
-        // let jsonData = {
-        //     status: true,
-        //     data:results 
-        // }
+        let jsonData = {
+            status: true,
+            data:results 
+        }
 
-        // console.log(jsonData, '22222222222222222222222222222222222222222222222222222222');
-        // res.json(jsonData);
+        console.log(jsonData, '22222222222222222222222222222222222222222222222222222222');
+        res.json(jsonData);
     }
 });
 
