@@ -52,8 +52,7 @@ app.post('/jiaoyu',  (req,res) => {
             } else {
                 
 
-                
-                
+            
                     let resultSelect = await db.one(studentName, type);
                 
                     // res.json(resultSelect);
@@ -74,6 +73,8 @@ app.post('/jiaoyu',  (req,res) => {
                         status: true,
                         data:results 
                     }
+
+                    console.log(jsonData, '22222222222222222222222222222222222222222222222222222222');
                     res.json(jsonData);
                 
             }
