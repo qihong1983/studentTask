@@ -70,19 +70,38 @@ app.post('/jiaoyu',  async (req,res) => {
                     status: false
                 })
             } else {
-                if (!data.rows.length) {
-                    query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`).then((insertData)=> {
-                        if (insertData.err) {
-                            res.json({
-                                status: false
-                            })
-                        }
-                    })
-                } else {
-                    query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then((data)=> {
-                        console.log(data,222222222222222222222222222222);
+                // if (!data.rows.length) {
+                //     query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`).then((insertData)=> {
+                //         if (insertData.err) {
+                //             res.json({
+                //                 status: false
+                //             })
+                //         }
+                //     })
+                // } else {
+                //     query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then((updateData)=> {
+                //         console.log(updateData,222222222222222222222222222222);
                         
-                        if (data.err) {
+                //         if (updateData.err) {
+                //             res.json({
+                //                 status:false
+                //             })
+                //         } else {
+                //             return ;
+                //         }
+                //     });
+                // }
+            }
+            // if(data.rows[0]!=undefined)
+            // {
+            //     res.json({message:'该厂家信息已经录入！'});
+            //     return;
+            // }
+        }).then(()=> {
+            query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then((updateData)=> {
+                        console.log(updateData,222222222222222222222222222222);
+                        
+                        if (updateData.err) {
                             res.json({
                                 status:false
                             })
@@ -90,13 +109,6 @@ app.post('/jiaoyu',  async (req,res) => {
                             return ;
                         }
                     });
-                }
-            }
-            // if(data.rows[0]!=undefined)
-            // {
-            //     res.json({message:'该厂家信息已经录入！'});
-            //     return;
-            // }
         }).then(()=> {
           
 
@@ -120,7 +132,7 @@ app.post('/jiaoyu',  async (req,res) => {
            
         }).then(()=> {
 
-            console.log(data, 3333333333333333);
+            console.log(3333333333333333);
         })
 
 
