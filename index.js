@@ -6,7 +6,7 @@ const db = require("./db/index");
 
 const moment = require('moment');
 
-var query=require('../db/index2');
+var query=require('./db/index2');
 
 
 const cors=require('cors')

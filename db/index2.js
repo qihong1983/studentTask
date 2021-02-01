@@ -1,11 +1,21 @@
 var mysql=require("mysql")
-var settings=require('../settings');
-var pool = mysql.createPool({
-    host: settings.host,
-    user: settings.user,
-    password: settings.password,
-    database: settings.db,
-    port:settings.port
+// var settings=require('../settings');
+// var pool = mysql.createPool({
+//     host: settings.host,
+//     user: settings.user,
+//     password: settings.password,
+//     database: settings.db,
+//     port:settings.port
+// });
+
+
+pool = mysql.createPool({
+    connectionLimit: 200,
+    password: '123456',
+    user: 'root',
+    database: 'studentManage',
+    host: '43.252.230.6',
+    port: '3306'
 });
  
 module.exports=function (sql) {
