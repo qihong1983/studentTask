@@ -6,6 +6,8 @@ const db = require("./db/index");
 
 const moment = require('moment');
 
+var query=require('../db/index2');
+
 
 const cors=require('cors')
 app.use(cors())
@@ -58,17 +60,35 @@ app.post('/jiaoyu',  async (req,res) => {
         });
 
 
+        query(`SELECT * FROM task where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`).then(function (data) {
+            res.json(data);
+            return;
+            // if(data.rows[0]!=undefined)
+            // {
+            //     res.json({message:'该厂家信息已经录入！'});
+            //     return;
+            // }
+        });
 
-        console.log(2222222222222222222222222222222222222222222222222222222);
-        let resultSelect = await db.one(studentName, type, filename);
 
-        console.log(resultSelect, '<--------------');
+        // console.log(2222222222222222222222222222222222222222222222222222222);
+        // let resultSelect = await db.one(studentName, type, filename);
 
-        let jsonData = {
-            status: true,
-            data:resultSelect 
-        }
-        await res.json(jsonData);
+        // console.log(resultSelect, '<--------------');
+
+        // let jsonData = {
+        //     status: true,
+        //     data:resultSelect 
+        // }
+        // await res.json(jsonData);
+
+
+
+
+
+
+
+
 
         // // res.json(resultSelect);
 
