@@ -156,7 +156,7 @@ dbObj.updateTaskJishu = (studentName, type, filename) => {
 
 dbObj.allJishu = (studentName, type, filename) => {
     return new Promise((resolve,reject)=> {
-        console.log(`select student.id, student.studentname, task.url, task.type from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`);
+        console.log(`select student.id, student.studentname, task2.url from student left join task2 on student.studentname = task2.studentname and task2.createAt = '${moment().format("YYYYMMDD")}';`);
         pool.query(`select student.id, student.studentname, task2.url from student left join task2 on student.studentname = task2.studentname and task2.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
             if (err) {
                 return reject(err);

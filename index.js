@@ -9,7 +9,7 @@ const moment = require('moment');
 
 const cors=require('cors')
 app.use(cors())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false,limits: { fileSize: 50 * 1024 * 1024 }}))
 app.use(bodyParser.json())
 
 
