@@ -27,7 +27,7 @@ dbObj.one = (studentName, type,filename) => {
                 //     return reject(err);
                 // }
 
-
+                pool.releaseConnection(conn);
 
                 resolve({"qihong": "qihong"});
 
@@ -98,8 +98,12 @@ dbObj.one = (studentName, type,filename) => {
         console.log(msg, 'msgmsgmsgmsg');
 
         return new Promise(async (resolve, reject) => {
+
+            pool.getConnection(async (err, conn) => {
+
+            
              await conn.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
-                        // pool.releaseConnection(conn);
+                        pool.releaseConnection(conn);
         
                         console.log(updateErr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                         // if (updateErr) {
@@ -120,6 +124,8 @@ dbObj.one = (studentName, type,filename) => {
 
                         // return resolve(results);
                 });
+
+            });
         });
     }).then((msg) => {
         console.log(msg,'second sql');
