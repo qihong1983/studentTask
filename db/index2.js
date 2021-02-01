@@ -10,7 +10,7 @@ var mysql=require("mysql")
 
 
 pool = mysql.createPool({
-    connectionLimit: 200,
+    // connectionLimit: 200,
     password: '123456',
     user: 'root',
     database: 'studentManage',
