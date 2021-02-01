@@ -27,7 +27,6 @@ dbObj.one = (studentName, type,filename) => {
                 //     return reject(err);
                 // }
 
-                pool.releaseConnection(conn);
 
                 resolve({"qihong": "qihong"});
 
@@ -89,6 +88,9 @@ dbObj.one = (studentName, type,filename) => {
 
 
                 // return resolve(results);
+
+                pool.releaseConnection(conn);
+
             });
 
         });
@@ -103,7 +105,6 @@ dbObj.one = (studentName, type,filename) => {
 
             
              await conn.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
-                        pool.releaseConnection(conn);
         
                         console.log(updateErr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                         // if (updateErr) {
@@ -123,6 +124,9 @@ dbObj.one = (studentName, type,filename) => {
                         // });
 
                         // return resolve(results);
+
+                        pool.releaseConnection(conn);
+
                 });
 
             });
