@@ -51,14 +51,14 @@ dbObj.insertTask = (studentName, type, filename) => {
 }
 
 
-dbObj.updateTask = (studentName, type, filename) => {
-    return new Promise((resolve,reject)=> {
+dbObj.updateTask =  (studentName, type, filename) => {
+    return new Promise(async(resolve,reject)=> {
 
         // console.log(`SELECT * FROM task where studentname = ${studentName} and type = ${type} and createAt = ${moment().format("YYYYMMDD")}`);
 
        
         console.log(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}`);
-        pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
+        await pool.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, (err, results) => {
 
             console.log(err, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
             if (err) {
