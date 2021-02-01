@@ -27,26 +27,30 @@ dbObj.one = (studentName, type,filename) => {
                 //     return reject(err);
                 // }
 
+
+
+                resolve({"qihong": "qihong"});
+
                 if (!results.length) {
-                    await conn.query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`, (err, insertResults) => {
-                        // pool.releaseConnection(conn);
+                    // await conn.query(`INSERT INTO task (type, studentname, url,createAt) VALUES (${type}, '${studentName}', '${filename}','${moment().format("YYYYMMDD")}');`, (err, insertResults) => {
+                    //     // pool.releaseConnection(conn);
                         
-                        // if (err) {
-                        //     return reject(err);
-                        // }
-                        // return resolve(results);
+                    //     // if (err) {
+                    //     //     return reject(err);
+                    //     // }
+                    //     // return resolve(results);
 
 
-                        conn.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, allResults) => {
-                            pool.releaseConnection(conn);
+                    //     conn.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, allResults) => {
+                    //         pool.releaseConnection(conn);
                     
-                            // if (err) {
-                            //     return reject(err);
-                            // }
+                    //         // if (err) {
+                    //         //     return reject(err);
+                    //         // }
             
-                            return resolve(allResults);
-                        });
-                    });
+                    //         return resolve(allResults);
+                    //     });
+                    // });
                 } else {
 
 
