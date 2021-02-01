@@ -43,6 +43,9 @@ app.post('/jiaoyu',  (req,res) => {
 
         file.mv('./public/uploads/'+filename, async function (err) {
            
+            console.log(err, 'erroerroerror');
+
+
             if (err) {
                 res.send(err);
             } else {
