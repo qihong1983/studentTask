@@ -68,7 +68,7 @@ app.post('/jiaoyu',  async (req,res) => {
             status: true,
             data:resultSelect 
         }
-        res.json(jsonData);
+        await res.json(jsonData);
 
         // // res.json(resultSelect);
 
