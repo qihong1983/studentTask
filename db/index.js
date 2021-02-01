@@ -74,10 +74,10 @@ dbObj.updateTask =  (studentName, type, filename) => {
 
 dbObj.all = (studentName, type, filename) => {
 
-    return new Promise((resolve,reject)=> {
+    return new Promise(async (resolve,reject)=> {
         console.log(`select student.id, student.studentname, task.url, task.type from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`);
       
-        pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
+        await pool.query(`select student.id, student.studentname, task.url from student left join task on student.studentname = task.studentname and task.createAt = '${moment().format("YYYYMMDD")}';`, (err, results) => {
             if (err) {
                 return reject(err);
             }
