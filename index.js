@@ -126,7 +126,7 @@ app.post('/jiaoyu',  async (req,res) => {
                     // console.log(jsonData, '22222222222222222222222222222222222222222222222222222222');
                     res.json(jsonData);
                 }
-                
+                res.send();
                 console.log(data, 444444444444444444444444444444444444444);
             })
            
