@@ -99,12 +99,12 @@ dbObj.one = (studentName, type,filename) => {
     }).then((msg)=> {
         console.log(msg, 'msgmsgmsgmsg');
 
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
 
-            pool.getConnection(async (err, conn) => {
+            pool.getConnection((err, conn) => {
 
             
-             await conn.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
+            conn.query(`UPDATE task SET url = '${filename}' where studentname = '${studentName}' and type = ${type} and createAt = '${moment().format("YYYYMMDD")}'`, async (updateErr, updateResults) => {
         
                         console.log(updateErr, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
                         // if (updateErr) {
